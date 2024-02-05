@@ -3,6 +3,8 @@ package com.honeybee.magok.service;
 import com.honeybee.magok.domain.PriceBio;
 import com.honeybee.magok.dto.AddPriceBioRequest;
 import com.honeybee.magok.dto.UpdatePriceBioRequest;
+import com.honeybee.magok.repository.BioRepository;
+import com.honeybee.magok.repository.TestDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,10 +20,13 @@ class BioServiceTest {
 
     private final BioService bioService;
 
+    private final BioRepository repository;
+
 
     @Autowired
-    BioServiceTest(BioService bioService) {
+    BioServiceTest(BioService bioService, BioRepository repository) {
         this.bioService = bioService;
+        this.repository = repository;
     }
 //    @Test
 //    void save() {
@@ -65,7 +70,7 @@ class BioServiceTest {
 
         UpdatePriceBioRequest request =
                 UpdatePriceBioRequest.builder()
-                        .date("2023-12-01").heat(heat).unit(byId.getUnit()).etcPrice(byId.getEtcPrice())
+                        .date("2023-12-01").useAmount(heat).unit(byId.getUnit()).etcPrice(byId.getEtcPrice())
                         .supplyPrice(byId.getSupplyPrice()).vat(byId.getVat()).totalPrice(100000).memo(memo).build();
 
         PriceBio updated = bioService.update(byId.getId(), request);
@@ -84,5 +89,11 @@ class BioServiceTest {
         for (PriceBio bio : byYear) {
             System.out.println(bio.getDate() + "||" + bio.getUseAmount());
         }
+    }
+
+    @Test
+    void findBy() {
+        final int year = 2023;
+        repository.findAllByYear(year);
     }
 }

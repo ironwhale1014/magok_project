@@ -4,6 +4,7 @@ package com.honeybee.magok.service;
 import com.honeybee.magok.domain.PriceBio;
 import com.honeybee.magok.dto.*;
 import com.honeybee.magok.repository.BioRepository;
+import com.honeybee.magok.repository.TestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -67,6 +68,12 @@ public class BioService {
     public List<PriceBio> findByYear(int year) {
         return bioRepository.findByYear(year);
     }
+
+
+//    public void getTest(){
+//        int year =2023;
+//        List<TestDTO> allByYear = bioRepository.findAllByYear(year);
+//    }
 
     public YearResponse<PriceBioResponse> getYearResponseApi(int year) {
         List<PriceBioResponse> first = findByYear(year).stream().map(PriceBioResponse::new).toList();
