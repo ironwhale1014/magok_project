@@ -4,7 +4,6 @@ import com.honeybee.magok.domain.PriceBio;
 import com.honeybee.magok.dto.AddPriceBioRequest;
 import com.honeybee.magok.dto.UpdatePriceBioRequest;
 import com.honeybee.magok.repository.BioRepository;
-import com.honeybee.magok.repository.TestDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
