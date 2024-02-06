@@ -4,7 +4,6 @@ package com.honeybee.magok.service;
 import com.honeybee.magok.domain.PriceBio;
 import com.honeybee.magok.dto.*;
 import com.honeybee.magok.repository.BioRepository;
-import com.honeybee.magok.repository.TestDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,15 +64,38 @@ public class BioService {
         return bioRepository.findAll();
     }
 
-    public List<PriceBio> findByYear(int year) {
-        return bioRepository.findByYear(year);
+    private PriceBio makeDumyPriceBio(int year, int i) {
+        return new PriceBio(LocalDate.parse("%d-%02d-01".formatted(year, i + 1)),
+                0, 0, 0, 0, 0, 0, "가짜");
     }
 
+    public List<PriceBio> findByYear(int year) {
+        List<PriceBio> byYear = bioRepository.findByYear(year);
 
-//    public void getTest(){
-//        int year =2023;
-//        List<TestDTO> allByYear = bioRepository.findAllByYear(year);
-//    }
+        if (byYear.size() == 12) {
+            return byYear;
+        } else if (byYear.isEmpty()) {
+            for (int i = 0; i < 12; i++) {
+                byYear.add(i, makeDumyPriceBio(year, i));
+            }
+            return byYear;
+        } else {
+                List<PriceBio> dumyList = new ArrayList<>();
+            for (int i = 0; i < 12; i++) {
+
+                dumyList.add(makeDumyPriceBio(year, i));
+
+            }
+
+            for (PriceBio priceBio : byYear) {
+                int index = priceBio.getDate().getMonthValue()-1;
+                dumyList.add(index,priceBio);
+            }
+            return dumyList;
+        }
+
+
+    }
 
     public YearResponse<PriceBioResponse> getYearResponseApi(int year) {
         List<PriceBioResponse> first = findByYear(year).stream().map(PriceBioResponse::new).toList();
@@ -86,22 +108,20 @@ public class BioService {
 
     public List<BioViewFourYearResponse> getYearsResponse(int year) {
 
-        List<PriceBioResponse> first = findByYear(year).stream().map(PriceBioResponse::new).toList();
-        List<PriceBioResponse> second = findByYear(year - 1).stream().map(PriceBioResponse::new).toList();
-        List<PriceBioResponse> third = findByYear(year - 2).stream().map(PriceBioResponse::new).toList();
-        List<PriceBioResponse> forth = findByYear(year - 3).stream().map(PriceBioResponse::new).toList();
 
-        YearResponse<PriceBioResponse> bioYearResponse = YearResponse.<PriceBioResponse>builder().first(first).second(second).third(third).forth(forth).build();
+        YearResponse<PriceBioResponse> bioYearResponse = getYearResponseApi(year);
 
         List<BioViewFourYearResponse> bioViewFourYearResponses = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
-            PriceBioResponse first1 = bioYearResponse.getFirst().get(i);
 
+            PriceBioResponse first1 = bioYearResponse.getFirst().get(i);
             PriceBioResponse second1 = bioYearResponse.getSecond().get(i);
             PriceBioResponse third1 = bioYearResponse.getThird().get(i);
             PriceBioResponse forth1 = bioYearResponse.getForth().get(i);
 
             bioViewFourYearResponses.add(BioViewFourYearResponse.builder().month(i + 1).first(first1).second(second1).third(third1).forth(forth1).build());
+
+
         }
 
         return bioViewFourYearResponses;
