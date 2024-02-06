@@ -3,7 +3,6 @@ package com.honeybee.magok.controller;
 
 import com.honeybee.magok.domain.PriceBio;
 import com.honeybee.magok.dto.AddPriceBioRequest;
-import com.honeybee.magok.dto.BioViewFourYearResponse;
 import com.honeybee.magok.dto.PriceBioResponse;
 import com.honeybee.magok.dto.YearResponse;
 import com.honeybee.magok.service.BioService;

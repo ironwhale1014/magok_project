@@ -1,8 +1,7 @@
 package com.honeybee.magok.controller;
 
-import com.honeybee.magok.dto.BioViewFourYearResponse;
 import com.honeybee.magok.dto.PriceBioResponse;
-import com.honeybee.magok.dto.YearResponse;
+import com.honeybee.magok.dto.ViewFourYearResponse;
 import com.honeybee.magok.service.BioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -23,7 +22,7 @@ public class BioViewController {
 
         if (year != null) {
 
-            List<BioViewFourYearResponse> bioYearResponse = bioService.getYearsResponse(year);
+            List<ViewFourYearResponse<PriceBioResponse>> bioYearResponse = bioService.getYearsResponse(year);
 
             model.addAttribute("bioYearResponse", bioYearResponse);
 

@@ -80,7 +80,7 @@ public class BioService {
             }
             return byYear;
         } else {
-                List<PriceBio> dumyList = new ArrayList<>();
+            List<PriceBio> dumyList = new ArrayList<>();
             for (int i = 0; i < 12; i++) {
 
                 dumyList.add(makeDumyPriceBio(year, i));
@@ -88,8 +88,8 @@ public class BioService {
             }
 
             for (PriceBio priceBio : byYear) {
-                int index = priceBio.getDate().getMonthValue()-1;
-                dumyList.add(index,priceBio);
+                int index = priceBio.getDate().getMonthValue() - 1;
+                dumyList.add(index, priceBio);
             }
             return dumyList;
         }
@@ -106,12 +106,12 @@ public class BioService {
         return YearResponse.<PriceBioResponse>builder().first(first).second(second).third(third).forth(forth).build();
     }
 
-    public List<BioViewFourYearResponse> getYearsResponse(int year) {
+    public List<ViewFourYearResponse<PriceBioResponse>> getYearsResponse(int year) {
 
 
         YearResponse<PriceBioResponse> bioYearResponse = getYearResponseApi(year);
 
-        List<BioViewFourYearResponse> bioViewFourYearResponses = new ArrayList<>();
+        List<ViewFourYearResponse<PriceBioResponse>> bioViewFourYearResponses = new ArrayList<>();
         for (int i = 0; i < 12; i++) {
 
             PriceBioResponse first1 = bioYearResponse.getFirst().get(i);
@@ -119,7 +119,8 @@ public class BioService {
             PriceBioResponse third1 = bioYearResponse.getThird().get(i);
             PriceBioResponse forth1 = bioYearResponse.getForth().get(i);
 
-            bioViewFourYearResponses.add(BioViewFourYearResponse.builder().month(i + 1).first(first1).second(second1).third(third1).forth(forth1).build());
+
+            bioViewFourYearResponses.add(ViewFourYearResponse.<PriceBioResponse>builder().month(i + 1).first(first1).second(second1).third(third1).forth(forth1).build());
 
 
         }

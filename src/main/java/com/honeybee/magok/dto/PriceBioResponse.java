@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @RequiredArgsConstructor
-public class PriceBioResponse {
+public class PriceBioResponse implements IResponse {
 
     private final LocalDate date;
     private final int year;

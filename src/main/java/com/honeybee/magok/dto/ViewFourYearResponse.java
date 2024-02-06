@@ -4,22 +4,20 @@ package com.honeybee.magok.dto;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.thymeleaf.expression.Objects;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.IntSummaryStatistics;
 import java.util.List;
 
 
 @NoArgsConstructor
 @Getter
-public class BioViewFourYearResponse {
+public class ViewFourYearResponse<T extends IResponse> {
     private Integer month;
-    private PriceBioResponse first;
-    private PriceBioResponse second;
-    private PriceBioResponse third;
-    private PriceBioResponse forth;
+    private T first;
+    private T second;
+    private T third;
+    private T forth;
     private IntSummaryStatistics useAmount;
     private IntSummaryStatistics supplyPrice;
     private IntSummaryStatistics payment;
@@ -30,10 +28,10 @@ public class BioViewFourYearResponse {
 
 
     @Builder
-    public BioViewFourYearResponse(Integer month, PriceBioResponse first, PriceBioResponse second,
-                                   PriceBioResponse third, PriceBioResponse forth) {
+    public ViewFourYearResponse(Integer month, T first, T second,
+                                T third, T forth) {
 
-        List<PriceBioResponse> priceBioResponses = new ArrayList<>();
+        List<T> priceBioResponses = new ArrayList<>();
         List<Integer> payments = new ArrayList<>();
         List<Integer> supplyPrices = new ArrayList<>();
         List<Integer> useAmounts = new ArrayList<>();
@@ -58,7 +56,7 @@ public class BioViewFourYearResponse {
             priceBioResponses.add(forth);
         }
 
-        for (PriceBioResponse priceBioRespons : priceBioResponses) {
+        for (T priceBioRespons : priceBioResponses) {
             useAmounts.add(priceBioRespons.getUseAmount());
             supplyPrices.add(priceBioRespons.getSupplyPrice());
             payments.add(priceBioRespons.getTotalPrice() - priceBioRespons.getVat());
