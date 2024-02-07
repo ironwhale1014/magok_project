@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 @RequiredArgsConstructor
-public class PriceBioResponse {
+public class PriceBioResponse implements IResponse {
 
     private final LocalDate date;
     private final int year;
@@ -17,6 +17,8 @@ public class PriceBioResponse {
     private final Integer unit;
     private final Integer supplyPrice;
     private final String memo;
+    private final Integer totalPrice;
+    private final Integer vat;
 
 
     public PriceBioResponse(PriceBio priceBio) {
@@ -27,6 +29,8 @@ public class PriceBioResponse {
         this.memo = priceBio.getMemo();
         this.year = date.getYear();
         this.month = date.getMonthValue();
+        this.totalPrice = priceBio.getTotalPrice();
+        this.vat = priceBio.getVat();
     }
 
 }
