@@ -36,9 +36,13 @@ public class BioApiController {
 
     @PostMapping("/api/bio")
     public ResponseEntity<PriceBio> addPriceBio(@RequestBody AddPriceBioRequest request) {
-
         PriceBio saved = bioService.save(request);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(saved);
+    }
+
+    @DeleteMapping("/api/bio/{id}")
+    public ResponseEntity<Void> delPriceBio(@PathVariable Long id) {
+        bioService.delete(id);
+        return ResponseEntity.ok().build();
     }
 }
